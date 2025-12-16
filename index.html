@@ -7,6 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
@@ -28,7 +29,17 @@ body.lock-scroll {
   --muted:#6b7280;
   --border:#e5e7eb;
   --hover:#f3f4f6;
+
+  --font-body: Manrope, system-ui, sans-serif;
+  --font-heading: "Playfair Display", serif;
+
+  --ease-premium: cubic-bezier(.22,1,.36,1);
+  --dur-fast: .25s;
+  --dur-mid: .4s;
+  --dur-slow: .7s;
 }
+
+
 
 * { box-sizing:border-box; }
   
@@ -42,7 +53,7 @@ html {
 
 body {
   margin:0;
-  font-family:Manrope,system-ui,sans-serif;
+  font-family: var(--font-body);
   background:#ffffff;
   color:#111111;
 }
@@ -112,17 +123,39 @@ body {
 }
 
 /* Animate hamburger into X */
-.nav.open .nav-toggle span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-
-.nav.open .nav-toggle span:nth-child(2) {
-  opacity: 0;
-}
 
 .nav.open .nav-toggle span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
+
+/* Keep close (X) button visible above mobile menu */
+@media (max-width: 764px) {
+  .nav.open .nav-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 2001; /* higher than nav-links */
+  }
+}
+
+@media (max-width: 764px) {
+  .nav.open .nav-toggle span {
+    background: #ffffff !important;
+  }
+}
+@media (max-width: 764px) {
+  .nav.open .nav-toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 
 /* Desktop: hide hamburger */
 @media (min-width: 769px) {
@@ -144,6 +177,53 @@ body {
 @media (max-width: 764px) {
   .nav.open .nav-toggle span {
     background: #ffffff !important;
+  }
+}
+
+
+/* PERFECTLY CENTER THE X ICON */
+@media (max-width: 764px) {
+
+  .nav.open .nav-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 2001;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Remove spacing that breaks the X */
+  .nav.open .nav-toggle span {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 2px;
+    background: #ffffff;
+    transform-origin: center;
+  }
+
+  /* X strokes */
+  .nav.open .nav-toggle span:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .nav.open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav.open .nav-toggle span:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(-45deg);
   }
 }
 
@@ -342,6 +422,13 @@ nav a:hover {
   z-index: 2;
   transition: color 0.25s ease, transform 0.25s ease;
 }
+
+/* Remove underline animation from primary CTA buttons */
+.btn-primary::after {
+  display: none !important;
+  content: none !important;
+}
+
 
 /* Hover effect */
 @media (hover: hover) {
@@ -574,19 +661,39 @@ nav a:hover {
    ===================== */
 
 .btn-primary {
-  background:#111111;
-  color:#ffffff;
+  background:#111;
+  color:#fff;
   padding:16px 34px;
-  border-radius:8px;
+  border-radius:10px;
   font-weight:600;
-  text-decoration:none;
-  transition: background 0.3s ease, transform 0.3s ease;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.25);
+
+  transition:
+    transform var(--dur-mid) var(--ease-premium),
+    box-shadow var(--dur-mid) var(--ease-premium),
+    background var(--dur-mid);
 }
 
-.btn-primary:hover {
-  background:#1f2937;
-  transform: translateY(-1px);
+/* Ensure no underline on primary CTA in any state */
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  text-decoration: none !important;
 }
+
+
+.btn-primary:hover {
+  background: #1a1a1a;
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
 
 .btn-ghost {
   background:#111111;
@@ -843,18 +950,20 @@ nav a:hover {
 }
 
 .why-card {
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 18px;
-  padding: 36px 34px;
-  text-align: left;
-  cursor: pointer;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(12px);
+
+  border-radius:28px;
+  padding:40px 36px;
+
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow: 0 20px 46px rgba(0,0,0,.10);
 
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform var(--dur-mid) var(--ease-premium),
+    box-shadow var(--dur-mid) var(--ease-premium);
 }
+
 
 .why-card:hover {
   transform: translateY(-4px);
@@ -969,7 +1078,6 @@ nav a:hover {
 }
 
 
-@media (max-width: 764px) {
   /* CTA — MOBILE COMPACT (MATCH HERO SCALE) */
 @media (max-width: 764px) {
   .cta-card {
@@ -1755,6 +1863,18 @@ p {
   font-size: clamp(14px, 1.15vw, 17px);
   line-height: 1.55;
 }
+
+h1, h2 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+h3, h4 {
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
   
   /* Center content vertically */
   .hero-center {
@@ -1764,10 +1884,19 @@ p {
 
   /* Hero card size */
   .hero-card {
-    max-width: 100% !important;
-    padding: 28px 22px !important;
-    border-radius: 18px;
-  }
+  max-width: 860px;
+  padding: 44px 48px;
+  border-radius: 20px;
+
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.55);
+
+  box-shadow:
+    0 26px 64px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
 
   /* Eyebrow */
   .hero-eyebrow {
@@ -1888,6 +2017,8 @@ p {
    ===================== */
 
 .section-title {
+  font-family: var(--font-heading);
+  font-weight: 500;
   font-size: 42px;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -1902,7 +2033,7 @@ p {
   color: #6b7280;
   letter-spacing: 0;
 }
-
+  
 /* Mobile refinement */
 @media (max-width: 764px) {
   .section-title {
