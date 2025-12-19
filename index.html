@@ -13,6 +13,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
+
 <style>
 
 body.lock-scroll {
@@ -2374,11 +2375,12 @@ h3, h4 {
 
 
   .has-mega:hover .mega-menu,
-.has-mega .mega-menu:hover {
+.has-mega:focus-within .mega-menu {
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(0);
 }
+
 
 
   .mega-grid {
@@ -2524,6 +2526,26 @@ h3, h4 {
     justify-content: flex-end !important;
   }
 }
+  
+  /* === MEGA MENU HOVER BRIDGE (CRITICAL UX FIX) === */
+
+.has-mega {
+  position: relative;
+}
+
+/* Invisible hover bridge */
+.has-mega::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  width: 220px;          /* generous bridge width */
+  height: 32px;          /* fills the gap */
+  background: transparent;
+  pointer-events: auto;
+}
+
   
 </style>
 </head>
