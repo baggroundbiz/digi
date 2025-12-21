@@ -1998,7 +1998,7 @@ h3 {
 }
 
 p {
-  font-size: clamp(14px, 1.15vw, 17px);
+  font-size: clamp(14px, 1vw, 16.5px);
   line-height: 1.55;
 }
 
@@ -2544,6 +2544,69 @@ h3, h4 {
   height: 32px;          /* fills the gap */
   background: transparent;
   pointer-events: auto;
+}
+
+  /* =====================
+   EXTRA SMALL PHONES (≤ 420px)
+   ===================== */
+@media (max-width: 420px) {
+  .hero-card {
+    padding: 22px 18px;
+  }
+
+  .hero-card h1 {
+    font-size: 22px !important;
+  }
+
+  .hero-subtext {
+    font-size: 13px !important;
+  }
+
+  .nav-links {
+    width: 92vw;
+  }
+}
+
+/* =====================
+   SHORT HEIGHT SCREENS
+   ===================== */
+@media (max-height: 700px) {
+  .hero-card {
+    max-height: 78vh;
+    overflow-y: auto;
+  }
+
+  .nav-links {
+    overflow-y: auto;
+  }
+}
+/* =====================
+   TOUCH OPTIMIZATION
+   ===================== */
+@media (hover: none) {
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-toggle,
+  .why-card,
+  .btn-primary,
+  .btn-plate {
+    touch-action: manipulation;
+  }
+}
+/* =====================
+   REDUCED MOTION SUPPORT
+   ===================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-track {
+    animation: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }
 
   
